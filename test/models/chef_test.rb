@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class TestHelper < ActiveSupport::TestCase
+class ChefTest < ActiveSupport::TestCase
   
   def setup
     @chef = Chef.new(chefname: "Bob the Chef", email: "bob@chef.com")
@@ -61,6 +61,13 @@ class TestHelper < ActiveSupport::TestCase
     duplicate_chef.email = @chef.email.upcase
     @chef.save
     assert_not duplicate_chef.valid?
+  end
+
+  test "email should be lowercase before hitting db" do
+    mixed_email = "BenZ@Gmail.com"
+    @chef.email = mixed_email
+    @chef.save
+    assert_equal mixed_email.downcase, @chef.reload.email
   end
 
 end

@@ -1,4 +1,5 @@
 class Chef < ApplicationRecord
+  before_save { self.email = email.downcase }
   validates :chefname, presence: true, length: {minimum: 5, maximum: 30}
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i
   validates :email, presence: :true, length: {minimum: 6, maximum: 255},
