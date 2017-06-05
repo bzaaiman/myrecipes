@@ -3,7 +3,8 @@ require 'test_helper'
 class RecipeTest < ActiveSupport::TestCase
   
   def setup
-    @recipe = Recipe.new(name: "vegetable", description: "test recipe for vegetable")
+    @chef = Chef.create!(chefname: "testchefname", email: "testchef@gmail.com")
+    @recipe = @chef.recipes.build(name: "vegetable", description: "test recipe for vegetable")
   end
   
   test "recipe should be valid" do
@@ -27,6 +28,12 @@ class RecipeTest < ActiveSupport::TestCase
 
   test "description should not be more than 500 characters long" do
     @recipe.description = "a" * 501
+    assert_not @recipe.valid?
+  end
+
+# @recipe.chef = nil passes, but this does not. This is because the @recipe above already has a chef (which is wrongly configured, because it now doesn't have an id.) Therefore, the need to add further validation to the Recipe model.
+  test "chef_id should be present" do
+    @recipe.chef_id = nil
     assert_not @recipe.valid?
   end
 
