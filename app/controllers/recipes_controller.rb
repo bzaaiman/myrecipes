@@ -15,7 +15,7 @@ class RecipesController < ApplicationController
 
   def create
     @recipe = Recipe.new(recipe_params)
-    @recipe.chef = Chef.first
+    @recipe.chef = Chef.first #this a temporary workaround while we don't manually assign chefs. Especially ugly since this is sensitive to scope chages in the model.
     if @recipe.save
       flash[:success] = "Recipe was saved succesfully"
       redirect_to recipe_path(@recipe)
@@ -38,7 +38,7 @@ class RecipesController < ApplicationController
   
   def destroy
     @recipe.destroy
-    flash[:success] = "Recipe was deleted succesfully"
+    flash[:danger] = "Recipe was deleted succesfully"
     redirect_to recipes_path
   end
 

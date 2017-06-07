@@ -10,6 +10,9 @@
           <p>
             <span class="quiet>"><small>Updated <%= time_ago_in_words(chef.updated_at) %> ago.</small></span>
           </p>
+          <%= link_to "Delete this chef", chef_path(chef), method: :delete,
+                                      data: {confirm: "Are you sure you want to delete this?"},
+                                      class: "btn btn-xs btn-danger" %>
         </div>
       </div>
   <% end %>

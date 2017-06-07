@@ -1,5 +1,7 @@
 class ChefsController < ApplicationController
   
+  before_action :set_chef, only: [:show, :edit, :update, :destroy]
+
   def new
     @chef = Chef.new
   end
@@ -9,7 +11,6 @@ class ChefsController < ApplicationController
   end
   
   def show
-    set_chef
     @chefs_recipes = @chef.recipes.paginate(page: params[:page], per_page: 5)
   end
   
@@ -24,17 +25,21 @@ class ChefsController < ApplicationController
   end
 
   def edit
-    set_chef
   end
 
   def update
-    set_chef
     if @chef.update(chef_params)
       flash[:success] = "Chef updated successfully"
       redirect_to chef_path(@chef)
     else 
       render 'edit'
     end  
+  end
+
+  def destroy
+    @chef.destroy
+    flash[:danger] = "Chef and all associated recipes deleted"
+    redirect_to chefs_path
   end
   
   private
