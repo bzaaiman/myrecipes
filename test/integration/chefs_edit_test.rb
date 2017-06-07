@@ -8,11 +8,13 @@ class ChefsEditTest < ActionDispatch::IntegrationTest
   end
   
   test "edit chef route exists" do
+    sign_in_as(@chef, @chef.password)
     get edit_chef_path(@chef)
     assert_response :success
   end
 
   test "reject invalid edited chef" do
+    sign_in_as(@chef, @chef.password)
     get edit_chef_path(@chef)
     assert_template 'chefs/edit'    
     name_of_chef = "bb"
@@ -24,6 +26,7 @@ class ChefsEditTest < ActionDispatch::IntegrationTest
   end
 
   test "accept valid edited chef" do
+    sign_in_as(@chef, @chef.password)
     get edit_chef_path(@chef)
     assert_template 'chefs/edit'    
     name_of_chef = "foodmeister"
