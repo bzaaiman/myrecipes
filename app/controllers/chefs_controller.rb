@@ -21,6 +21,20 @@ class ChefsController < ApplicationController
       render 'new'
     end
   end
+
+  def edit
+    set_chef
+  end
+
+  def update
+    set_chef
+    if @chef.update(chef_params)
+      flash[:success] = "Chef updated successfully"
+      redirect_to chef_path(@chef)
+    else 
+      render 'edit'
+    end  
+  end
   
   private
   

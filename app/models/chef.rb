@@ -7,6 +7,7 @@ class Chef < ApplicationRecord
                     uniqueness: {case_sensitive: false}
   has_many :recipes
   has_secure_password
-  validates :password, presence: true, length: {minimum: 5}
+  validates :password, presence: true, length: {minimum: 5}, allow_nil: true
+  # the has_secure_password enforces that it must have a password. The allow_nil exception allows a submit not to contain this data. (e.g. in the edit form)
   
 end
