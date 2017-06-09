@@ -1,0 +1,8 @@
+<%= render 'shared/page_title', title: 'List of ingredients' %>
+<div align="center">
+  <%= will_paginate %>
+</div>
+<%= render 'ingredient', obj: @ingredients %>
+<div align="center">
+  <%= will_paginate %>
+</div>

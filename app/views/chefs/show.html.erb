@@ -5,7 +5,7 @@
   </div>
 </div>
 
-<h4 align="center"><%= @chef.chefname %>'s recipes</h4>
+<h4 align="center"><%= @chef.chefname %><%= @chef.recipes.any? ? "'s recipes" : " has no recipes" %> </h4>
 <div align="center">
   <%= will_paginate @chefs_recipes %>
 </div>

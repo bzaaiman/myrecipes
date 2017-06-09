@@ -9,7 +9,7 @@
       <h4><%= link_to recipe.name, recipe_path(recipe) %></h4>
       <p><%= truncate(recipe.description, length: 150) %></p>
       <p>
-        <span class="quiet>"><small>Updated <%= time_ago_in_words(recipe.updated_at) %> ago.</small></span>
+        <span class="quiet>"><small>Updated <%= time_ago_in_words(recipe.updated_at) %> ago. By: <%= recipe.chef.chefname %></small></span>
       </p>
       <div class="recipe-actions">
         <% if logged_in? && (current_chef == recipe.chef || current_chef.admin?) %>

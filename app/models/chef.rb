@@ -9,6 +9,8 @@ class Chef < ApplicationRecord
   has_secure_password
   validates     :password, presence: true, length: {minimum: 5}, allow_nil: true
   # the has_secure_password enforces that it must have a password. The allow_nil exception allows a submit not to contain this data. (e.g. in the edit form)
+
+  has_many      :comments, dependent: :destroy
   
   default_scope -> {order(updated_at: :desc)}
   

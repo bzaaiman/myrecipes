@@ -1,0 +1,18 @@
+<%= render "shared/page_title", title: "#{@ingredient.name}" %>
+
+<h4 align="center"><%= "#{@ingredient.name} is used in #{pluralize(@ingredient_recipes.count, 'recipe')}" if @ingredient_recipes.count > 0 %> </h4>
+<div align="center">
+  <%= will_paginate @ingredient_recipes %>
+</div>
+<%= render "recipes/recipe", obj: @ingredient_recipes %>
+<div align="center">
+  <%= will_paginate @ingredient_recipes %>
+</div>
+<div class="chef-actions">
+  <% if logged_in? && current_chef.admin? %>
+    <%= link_to "Edit this ingredient", edit_ingredient_path(@ingredient), class: "btn btn-xs btn-warning" %>
+  <% end %>
+</div>
+<div class="col-md-4 col-md-offset-4 colormatch center">
+  [ <%= link_to "Cancel and return to list of ingredients", ingredients_path %> ]
+</div>
