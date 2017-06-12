@@ -24,8 +24,9 @@ class CommentsController < ApplicationController
     @comment = @recipe.comments.build(comments_params)
     @comment.chef = current_chef
     if @comment.save
-      flash[:success] = "Comment saved"
-      redirect_to recipe_path(@recipe)
+      ActionCable.server.broadcast "comments", render(partial: "comments/comment", object: @comment) # I.e. as soon as the change is saved, tell the actioncable server to broadcast the change on the "comments" channel, finally aslo saying what should be rendered over the channel.
+#      flash[:success] = "Comment saved" # We don't want this because the message will be sent in real-time and we don't want to redirect to a new page. Aslo, a flash message is only displayed on the next page, which doesn't happen here.
+#      redirect_to recipe_path(@recipe)
     else
       flash[:danger] = "Comment was not created"
       redirect_back(fallback_location: root_path) #     This goes back to the previous page, but again through the controller, this correctly being initiated with a correct @comments object

@@ -20,6 +20,7 @@ class ChefsController < ApplicationController
     @chef = Chef.new(chef_params)
     if @chef.save
       session[:chef_id] = @chef.id
+      cookies.signed[:chef_id] = @chef.id # It is necessary to set a signed cookie to work with ActionCable. # Also necessary to to when a new session is created (see sessions controller.)
       flash[:success] = "Welcome, #{@chef.chefname} to MyRecipes!"
       redirect_to chef_path(@chef)
     else

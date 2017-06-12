@@ -7,7 +7,8 @@ class SessionsController < ApplicationController
   def create
     chef = Chef.find_by(email: params[:session][:email].downcase)
     if chef && chef.authenticate(params[:session][:password])
-      session[:chef_id] = chef.id
+      session[:chef_id] = chef.id 
+      cookies.signed[:chef_id] = chef.id # It is necessary to set a signed cookie to work with ActionCable. # Also necessary to to when a new chef is created (see Chefs controller.)
       flash[:success] = "You have successfully logged in."
       redirect_to chef  # this is a short form for chef_path(chef)
     else
