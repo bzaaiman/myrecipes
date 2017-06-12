@@ -1,9 +1,10 @@
 class CommentsController < ApplicationController
 
-  before_action :set_comment, only: [:show, :edit, :update, :destroy]
+#  before_action :set_comment, only: [:show, :edit, :update, :destroy]
   before_action :require_user, except: [:index, :show] # Remember the require_user method was defined in ApplicationController
-  before_action :require_same_user, only: [:edit, :update, :destroy]
+#  before_action :require_same_user, only: [:edit, :update, :destroy]
   
+=begin
   def show
   end
   
@@ -16,10 +17,24 @@ class CommentsController < ApplicationController
     @comment.chef = current_chef
   end
   
+=end
+  
   def create
-    @comment = Comment.new(comments_params)
+    @recipe = Recipe.find(params[:recipe_id])
+    @comment = @recipe.comments.build(comments_params)
+    @comment.chef = current_chef
+    if @comment.save
+      flash[:success] = "Comment saved"
+      redirect_to recipe_path(@recipe)
+    else
+      flash[:danger] = "Comment was not created"
+      redirect_back(fallback_location: root_path) #     This goes back to the previous page, but again through the controller, this correctly being initiated with a correct @comments object
+#      render 'recipes/show' # this would not work here because if you are rendering, you are simply rendering the same page again. But because you did not do this through a redirect, it did not pass through the recipes controller, where it would have picked up the @comments object.
+#      redirect_to :back  # redirect_to :back has been deprecated in Rails 5
+    end
   end
   
+=begin  
   def edit
   end
   
@@ -37,7 +52,7 @@ class CommentsController < ApplicationController
     flash[:success] = "Comment successfuly deleted."
     redirect_to comments_path
   end
-
+=end
   private
   
     def set_comment
@@ -45,14 +60,7 @@ class CommentsController < ApplicationController
     end
     
     def comments_params
-      params.require(:comment).permit(:description, :chef_id, :recipe_id)
-    end
-    
-    def require_admin_user
-      if current_chef != @comment.chef and !current_chef.admin?
-        flash[:danger] = "Only Admins can edit or delete comments."
-        redirect_to comments_path
-      end
+      params.require(:comment).permit(:description)
     end
     
 end
