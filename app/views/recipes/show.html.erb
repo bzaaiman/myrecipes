@@ -59,6 +59,7 @@
 <% if @recipe.comments.count != 0 %>
   <div class="row">
     <div class="row col-md-8 col-md-offset-2">
+      <h3>Prior Comments:</h3>
       <div id="messages">  <!-- this div class is put here to allow me to put into place a javascript event listener for ActionCable This is set up in comments.coffee under javascript/channels folder-->
         <%= render partial: 'comments/comments', object: @comments %>
       </div>
